@@ -1,16 +1,127 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Page Title</title>
-    </head>
-    <body>
-     <div class="clock-container">
-  <div class="clock">
-    <span id="hours">00</span>:
-    <span id="minutes">00</span>:
-    <span id="seconds">00</span>
-  </div>
-</div>
-   
-    </body>
-</html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock with Background Animation</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .clock-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            animation: gradientBG 5s infinite alternate;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            }
+            50% {
+                background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            }
+            100% {
+                background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+            }
+        }
+
+        .clock {
+            font-size: 3rem;
+            font-family: 'Arial', sans-serif;
+            color: #00FFFF;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 3rem;
+            border-radius: 15rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            box-shadow: 0 0 10px white;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="clock">
+            <span id="hours">00</span>:
+            <span id="minutes">00</span>:
+            <span id="seconds">00</span>
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            hours = ('0' + hours).slice(-2);
+            minutes = ('0' + minutes).slice(-2);
+            seconds = ('0' + seconds).slice(-2);
+
+            document.getElementById('hours').innerHTML = hours;
+            document.getElementById('minutes').innerHTML = minutes;
+            document.getElementById('seconds').innerHTML = seconds;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime(); // Initialize the clock
+
+        // Create stars for background effect
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(star);
+
+            setTimeout(() => {
+                star.remove();
+            }, 5000);
+        }
+
+        setInterval(createStar, 100);
+    </script>
+</body>
+    </html>
+
